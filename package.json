@@ -1,0 +1,13 @@
+{
+  "name": "widok-lightbox",
+  "version": "1.0.0",
+  "description": "",
+  "main": "widok-lightbox.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cash-dom": "^8.1.0",
+    "widok": "github:weterynarzfred/widok"
+  }
+}
