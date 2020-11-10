@@ -20,6 +20,7 @@ class Lightbox {
       close: undefined,
       prev: undefined,
       next: undefined,
+      transition: 0,
     };
     Object.assign(this.options, options);
   }
@@ -71,11 +72,20 @@ class Lightbox {
       this.wrap.addClass('shown');
       this.isShown = true;
     }
-    this.image.attr({
-      src: source.url,
-    });
-    this.currentImage = source.id;
-    this.resize();
+    if (this.options.transition) this.wrap.addClass('transition');
+
+    setTimeout(() => {
+      if (this.options.transition) {
+        this.image.on('load', () => {
+          this.wrap.removeClass('transition');
+        });
+      }
+      this.image.attr({
+        src: source.url,
+      });
+      this.currentImage = source.id;
+      this.resize();
+    }, this.options.transition);
   }
 
   hide() {
