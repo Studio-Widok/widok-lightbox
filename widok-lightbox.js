@@ -18,6 +18,8 @@ class Lightbox {
       wrap: undefined,
       source: '.lightbox-source',
       close: undefined,
+      prev: undefined,
+      next: undefined,
     };
     Object.assign(this.options, options);
   }
@@ -36,8 +38,32 @@ class Lightbox {
       });
 
     if (this.options.close !== undefined) {
-      this.close = $(this.options.close).on('click', this.hide);
+      this.close = $(this.options.close).on('click', () => this.hide());
     }
+    if (this.options.prev !== undefined) {
+      $(this.options.prev).on('click', event => {
+        event.stopPropagation();
+        this.prev();
+      });
+    }
+    if (this.options.next !== undefined) {
+      $(this.options.next).on('click', event => {
+        event.stopPropagation();
+        this.next();
+      });
+    }
+  }
+
+  prev() {
+    this.show(
+      this.sources[
+        (this.currentImage - 1 + this.sources.length) % this.sources.length
+      ]
+    );
+  }
+
+  next() {
+    this.show(this.sources[(this.currentImage + 1) % this.sources.length]);
   }
 
   show(source) {
@@ -96,6 +122,21 @@ const lightboxes = [];
 
 window.addEventListener('afterLayoutChange', () => {
   lightboxes.forEach(lightbox => lightbox.resize());
+});
+
+window.addEventListener('keyup', event => {
+  if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
+    lightboxes.forEach(lightbox => {
+      if (lightbox.isShown) {
+        if (event.code === 'ArrowLeft') {
+          lightbox.prev();
+        }
+        if (event.code === 'ArrowRight') {
+          lightbox.next();
+        }
+      }
+    });
+  }
 });
 
 function createLightbox(options) {
