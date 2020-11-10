@@ -1,0 +1,138 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: #ccc;
+
+  .source {
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:hover {
+      color: #777;
+    }
+  }
+}
+
+$loading: 251.3274;
+@keyframes loading {
+  0% {
+    stroke-width: 15;
+    transform: rotate(0deg);
+    stroke-dasharray: $loading / 9 $loading / 9 * 2;
+  }
+  40% {
+    stroke-width: 10;
+    stroke-dasharray: $loading / 9 * 2 $loading / 9;
+  }
+  60% {
+    stroke-width: 10;
+    stroke-dasharray: $loading / 9 * 2 $loading / 9;
+  }
+  100% {
+    stroke-width: 15;
+    transform: rotate(800deg);
+    stroke-dasharray: $loading / 9 $loading / 9 * 2;
+  }
+}
+
+#lightbox {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 100%;
+  width: 100%;
+  transition: 0.3s;
+  z-index: 11;
+  background-color: rgba(255, 255, 255, 0);
+
+  .lightbox-sizer {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    width: 90%;
+    height: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .lightbox-image {
+      display: block;
+      transition: opacity 0.3s;
+    }
+  }
+
+  .lightbox-prev,
+  .lightbox-next,
+  .lightbox-close {
+    position: absolute;
+    width: 2.6em;
+    cursor: pointer;
+    transition: 0.3s;
+    z-index: 2;
+    background-color: #fff;
+    padding: 0.3em;
+
+    path {
+      stroke: #b00;
+      stroke-width: 20;
+      fill: none;
+    }
+
+    &:hover {
+      padding: 0.5em;
+    }
+  }
+
+  .lightbox-close {
+    top: 3em;
+    right: 3em;
+  }
+
+  .lightbox-prev {
+    top: 50%;
+    left: 2em;
+    margin-top: -1.3em;
+  }
+
+  .lightbox-next {
+    top: 50%;
+    right: 2em;
+    margin-top: -1.3em;
+  }
+
+  .lightbox-loading {
+    opacity: 0;
+    position: absolute;
+    width: 3em;
+    top: 50%;
+    left: 50%;
+    margin: -1.5em;
+    z-index: 2;
+
+    circle {
+      stroke: #b00;
+      stroke-width: 20;
+      fill: none;
+      stroke-linecap: round;
+      transform-origin: 50% 50%;
+    }
+  }
+
+  &.transition {
+    .lightbox-image {
+      opacity: 0;
+    }
+    .lightbox-loading {
+      opacity: 1;
+      animation: loading infinite 5s;
+    }
+  }
+
+  &.shown {
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+}
