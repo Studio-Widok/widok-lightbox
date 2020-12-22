@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "cash-dom": "^8.1.0",
-    "widok": "github:weterynarzfred/widok"
+    "widok": "github:studio-widok/widok"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",

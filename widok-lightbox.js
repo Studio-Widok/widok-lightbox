@@ -1,5 +1,5 @@
-const $ = require('cash-dom');
-const widok = require('widok');
+import $ from 'cash-dom';
+import widok from 'widok';
 
 class Lightbox {
   constructor(options) {
@@ -155,4 +155,4 @@ function createLightbox(options) {
   return lightbox;
 }
 
-module.exports = createLightbox;
+export default createLightbox;
