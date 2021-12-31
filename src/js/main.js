@@ -1,5 +1,5 @@
 import './../scss/base.scss';
-const createLightbox = require('./../../widok-lightbox');
+import createLightbox from './../../widok-lightbox';
 
 createLightbox({
   wrap: '#lightbox',

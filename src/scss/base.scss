@@ -1,3 +1,5 @@
+@use "sass:math";
+
 * {
   box-sizing: border-box;
 }
@@ -21,20 +23,20 @@ $loading: 251.3274;
   0% {
     stroke-width: 15;
     transform: rotate(0deg);
-    stroke-dasharray: $loading / 9 $loading / 9 * 2;
+    stroke-dasharray: math.div($loading, 9) math.div($loading, 9) * 2;
   }
   40% {
     stroke-width: 10;
-    stroke-dasharray: $loading / 9 * 2 $loading / 9;
+    stroke-dasharray: math.div($loading, 9) * 2 math.div($loading, 9);
   }
   60% {
     stroke-width: 10;
-    stroke-dasharray: $loading / 9 * 2 $loading / 9;
+    stroke-dasharray: math.div($loading, 9) * 2 math.div($loading, 9);
   }
   100% {
     stroke-width: 15;
     transform: rotate(800deg);
-    stroke-dasharray: $loading / 9 $loading / 9 * 2;
+    stroke-dasharray: math.div($loading, 9) math.div($loading, 9) * 2;
   }
 }
 
@@ -89,6 +91,13 @@ $loading: 251.3274;
   .lightbox-close {
     top: 3em;
     right: 3em;
+  }
+
+  .lightbox-prev,
+  .lightbox-next {
+    &.disabled {
+      display: none;
+    }
   }
 
   .lightbox-prev {

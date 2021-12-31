@@ -41,24 +41,31 @@ class Lightbox {
     if (this.options.close !== undefined) {
       this.close = $(this.options.close).on('click', () => this.hide());
     }
+
     if (this.options.prev !== undefined) {
       $(this.options.prev).on('click', event => {
         event.stopPropagation();
         this.prev();
       });
     }
+
     if (this.options.next !== undefined) {
       $(this.options.next).on('click', event => {
         event.stopPropagation();
         this.next();
       });
     }
+
+    if (this.sources.length <= 1) {
+      $(this.options.prev).addClass('disabled');
+      $(this.options.next).addClass('disabled');
+    }
   }
 
   prev() {
     this.show(
       this.sources[
-        (this.currentImage - 1 + this.sources.length) % this.sources.length
+      (this.currentImage - 1 + this.sources.length) % this.sources.length
       ]
     );
   }

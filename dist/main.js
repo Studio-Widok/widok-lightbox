@@ -1,97 +1,222 @@
-/******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// define __esModule on exports
-/******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
-/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/js/main.js");
-/******/ })
-/************************************************************************/
-/******/ ({
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./widok-lightbox.js":
+/*!***************************!*\
+  !*** ./widok-lightbox.js ***!
+  \***************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var cash_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! cash-dom */ "./node_modules/cash-dom/dist/cash.js");
+/* harmony import */ var cash_dom__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(cash_dom__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var widok__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! widok */ "./node_modules/widok/widok.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+
+
+
+var Lightbox = /*#__PURE__*/function () {
+  function Lightbox(options) {
+    var _this = this;
+
+    _classCallCheck(this, Lightbox);
+
+    this.prepareOption(options);
+    this.sources = [];
+    cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(this.options.source).each(function (id, element) {
+      return _this.sources.push(new Source(element, id, _this));
+    });
+    this.prepareLightbox();
+    this.isShown = false;
+  }
+
+  _createClass(Lightbox, [{
+    key: "prepareOption",
+    value: function prepareOption(options) {
+      this.options = {
+        wrap: undefined,
+        source: '.lightbox-source',
+        close: undefined,
+        prev: undefined,
+        next: undefined,
+        transition: 0
+      };
+      Object.assign(this.options, options);
+    }
+  }, {
+    key: "prepareLightbox",
+    value: function prepareLightbox() {
+      var _this2 = this;
+
+      if (this.options.wrap === undefined) {
+        this.wrap = cash_dom__WEBPACK_IMPORTED_MODULE_0___default()('<div class="lightbox-wrap"></div>').appendTo('body');
+      } else this.wrap = cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(this.options.wrap);
+
+      this.wrap.on('click', function () {
+        return _this2.hide();
+      });
+      this.sizer = cash_dom__WEBPACK_IMPORTED_MODULE_0___default()('<div class="lightbox-sizer"></div>').appendTo(this.wrap);
+      this.image = cash_dom__WEBPACK_IMPORTED_MODULE_0___default()('<img class="lightbox-image">').appendTo(this.sizer).on('click', function (event) {
+        event.stopPropagation();
+      });
+
+      if (this.options.close !== undefined) {
+        this.close = cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(this.options.close).on('click', function () {
+          return _this2.hide();
+        });
+      }
+
+      if (this.options.prev !== undefined) {
+        cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(this.options.prev).on('click', function (event) {
+          event.stopPropagation();
+
+          _this2.prev();
+        });
+      }
+
+      if (this.options.next !== undefined) {
+        cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(this.options.next).on('click', function (event) {
+          event.stopPropagation();
+
+          _this2.next();
+        });
+      }
+
+      if (this.sources.length <= 1) {
+        cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(this.options.prev).addClass('disabled');
+        cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(this.options.next).addClass('disabled');
+      }
+    }
+  }, {
+    key: "prev",
+    value: function prev() {
+      this.show(this.sources[(this.currentImage - 1 + this.sources.length) % this.sources.length]);
+    }
+  }, {
+    key: "next",
+    value: function next() {
+      this.show(this.sources[(this.currentImage + 1) % this.sources.length]);
+    }
+  }, {
+    key: "show",
+    value: function show(source) {
+      var _this3 = this;
+
+      if (!this.isShown) {
+        this.wrap.addClass('shown');
+        this.isShown = true;
+      }
+
+      if (this.options.transition) this.wrap.addClass('transition');
+      setTimeout(function () {
+        if (_this3.options.transition) {
+          _this3.image.on('load', function () {
+            _this3.wrap.removeClass('transition');
+          });
+        }
+
+        _this3.image.attr({
+          src: source.url
+        });
+
+        _this3.currentImage = source.id;
+
+        _this3.resize();
+      }, this.options.transition);
+    }
+  }, {
+    key: "hide",
+    value: function hide() {
+      if (this.isShown) {
+        this.wrap.removeClass('shown');
+        this.isShown = false;
+      }
+    }
+  }, {
+    key: "resize",
+    value: function resize() {
+      if (this.isShown) {
+        var ratio = this.sources[this.currentImage].ratio;
+
+        if (ratio > widok__WEBPACK_IMPORTED_MODULE_1__["default"].w / widok__WEBPACK_IMPORTED_MODULE_1__["default"].h) {
+          this.image.css({
+            width: '100%',
+            height: widok__WEBPACK_IMPORTED_MODULE_1__["default"].w / widok__WEBPACK_IMPORTED_MODULE_1__["default"].h / ratio * 100 + '%'
+          });
+        } else {
+          this.image.css({
+            width: ratio / widok__WEBPACK_IMPORTED_MODULE_1__["default"].w * widok__WEBPACK_IMPORTED_MODULE_1__["default"].h * 100 + '%',
+            height: '100%'
+          });
+        }
+      }
+    }
+  }]);
+
+  return Lightbox;
+}();
+
+var Source = /*#__PURE__*/_createClass(function Source(element, id, lightbox) {
+  var _this4 = this;
+
+  _classCallCheck(this, Source);
+
+  this.element = cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(element);
+  this.id = id;
+  this.lightbox = lightbox;
+  this.url = this.element.data('full-src');
+  this.ratio = this.element.data('ratio');
+  this.element.on('click', function (event) {
+    _this4.lightbox.show(_this4);
+  });
+});
+
+var lightboxes = [];
+window.addEventListener('afterLayoutChange', function () {
+  lightboxes.forEach(function (lightbox) {
+    return lightbox.resize();
+  });
+});
+window.addEventListener('keyup', function (event) {
+  if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
+    lightboxes.forEach(function (lightbox) {
+      if (lightbox.isShown) {
+        if (event.code === 'ArrowLeft') {
+          lightbox.prev();
+        }
+
+        if (event.code === 'ArrowRight') {
+          lightbox.next();
+        }
+      }
+    });
+  }
+});
+
+function createLightbox(options) {
+  var lightbox = new Lightbox(options);
+  lightboxes.push(lightbox);
+  return lightbox;
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (createLightbox);
+
+/***/ }),
 
 /***/ "./node_modules/cash-dom/dist/cash.js":
 /*!********************************************!*\
   !*** ./node_modules/cash-dom/dist/cash.js ***!
   \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ ((module) => {
 
 /* MIT https://github.com/fabiospampinato/cash */
 (function(){
@@ -1467,13 +1592,30 @@ if (true) {
 
 /***/ }),
 
+/***/ "./src/scss/base.scss":
+/*!****************************!*\
+  !*** ./src/scss/base.scss ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./node_modules/widok-throttle/widok-throttle.js":
 /*!*******************************************************!*\
   !*** ./node_modules/widok-throttle/widok-throttle.js ***!
   \*******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
 function throttle(ms, callback) {
   let lastCall = 0;
   let timeout;
@@ -1489,7 +1631,7 @@ function throttle(ms, callback) {
   };
 }
 
-if (true) module.exports = throttle;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (throttle);
 
 
 /***/ }),
@@ -1498,76 +1640,136 @@ if (true) module.exports = throttle;
 /*!*************************************!*\
   !*** ./node_modules/widok/widok.js ***!
   \*************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-const $ = __webpack_require__(/*! cash-dom */ "./node_modules/cash-dom/dist/cash.js");
-const throttle = __webpack_require__(/*! widok-throttle */ "./node_modules/widok-throttle/widok-throttle.js");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var widok_throttle__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! widok-throttle */ "./node_modules/widok-throttle/widok-throttle.js");
 
-const $window = $(window);
-const $body = $('body');
-let isPageScrolled = false;
 
 const widok = {
-  h: 0,
-  w: 0,
+  isPageScrolled: false,
   s: 0,
-  sizeCheck: () => {
-    widok.h = $window.height();
-    widok.w = $window.width();
-    document.documentElement.style.setProperty(
-      '--vh',
-      `${window.innerHeight / 100}px`
-    );
+  w: 0,
+  h: 0,
+  sizeCheck: function () {
+    widok.h = window.innerHeight;
+    widok.w = window.innerWidth;
+    document.documentElement.style.setProperty('--vh', `${widok.h / 100}px`);
     window.dispatchEvent(new CustomEvent('layoutChange'));
     widok.scrollCheck();
     window.dispatchEvent(new CustomEvent('afterLayoutChange'));
   },
-  scrollCheck: () => {
+  scrollCheck: function () {
     widok.s = window.scrollY;
     if (widok.s > 10) {
-      if (!isPageScrolled) {
-        $body.addClass('scrolled');
-        isPageScrolled = true;
+      if (!widok.isPageScrolled) {
+        document.body.classList.add('scrolled');
+        widok.isPageScrolled = true;
       }
     } else {
-      if (isPageScrolled) {
-        $body.removeClass('scrolled');
-        isPageScrolled = false;
+      if (widok.isPageScrolled) {
+        document.body.classList.remove('scrolled');
+        widok.isPageScrolled = false;
       }
     }
   },
 };
 
-$window.on({
-  resize: throttle(100, widok.sizeCheck),
-  load: widok.sizeCheck,
-  scroll: widok.scrollCheck,
-});
-
+window.addEventListener('resize', (0,widok_throttle__WEBPACK_IMPORTED_MODULE_0__["default"])(100, widok.sizeCheck));
+window.addEventListener('load', widok.sizeCheck);
+window.addEventListener('scroll', widok.scrollCheck);
 document.addEventListener('ready', widok.sizeCheck);
 
-if (true) module.exports = widok;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (widok);
 
 
-/***/ }),
+/***/ })
 
-/***/ "./src/js/main.js":
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+(() => {
+"use strict";
 /*!************************!*\
   !*** ./src/js/main.js ***!
   \************************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _scss_base_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../scss/base.scss */ "./src/scss/base.scss");
-/* harmony import */ var _scss_base_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_scss_base_scss__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _widok_lightbox__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../widok-lightbox */ "./widok-lightbox.js");
 
 
-var createLightbox = __webpack_require__(/*! ./../../widok-lightbox */ "./widok-lightbox.js");
-
-createLightbox({
+(0,_widok_lightbox__WEBPACK_IMPORTED_MODULE_1__["default"])({
   wrap: '#lightbox',
   close: '#lightbox .lightbox-close',
   prev: '#lightbox .lightbox-prev',
@@ -1575,219 +1777,8 @@ createLightbox({
   source: '.source',
   transition: 300
 });
+})();
 
-/***/ }),
-
-/***/ "./src/scss/base.scss":
-/*!****************************!*\
-  !*** ./src/scss/base.scss ***!
-  \****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
-/***/ "./widok-lightbox.js":
-/*!***************************!*\
-  !*** ./widok-lightbox.js ***!
-  \***************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var $ = __webpack_require__(/*! cash-dom */ "./node_modules/cash-dom/dist/cash.js");
-
-var widok = __webpack_require__(/*! widok */ "./node_modules/widok/widok.js");
-
-var Lightbox = /*#__PURE__*/function () {
-  function Lightbox(options) {
-    var _this = this;
-
-    _classCallCheck(this, Lightbox);
-
-    this.prepareOption(options);
-    this.sources = [];
-    $(this.options.source).each(function (id, element) {
-      return _this.sources.push(new Source(element, id, _this));
-    });
-    this.prepareLightbox();
-    this.isShown = false;
-  }
-
-  _createClass(Lightbox, [{
-    key: "prepareOption",
-    value: function prepareOption(options) {
-      this.options = {
-        wrap: undefined,
-        source: '.lightbox-source',
-        close: undefined,
-        prev: undefined,
-        next: undefined,
-        transition: 0
-      };
-      Object.assign(this.options, options);
-    }
-  }, {
-    key: "prepareLightbox",
-    value: function prepareLightbox() {
-      var _this2 = this;
-
-      if (this.options.wrap === undefined) {
-        this.wrap = $('<div class="lightbox-wrap"></div>').appendTo('body');
-      } else this.wrap = $(this.options.wrap);
-
-      this.wrap.on('click', function () {
-        return _this2.hide();
-      });
-      this.sizer = $('<div class="lightbox-sizer"></div>').appendTo(this.wrap);
-      this.image = $('<img class="lightbox-image">').appendTo(this.sizer).on('click', function (event) {
-        event.stopPropagation();
-      });
-
-      if (this.options.close !== undefined) {
-        this.close = $(this.options.close).on('click', function () {
-          return _this2.hide();
-        });
-      }
-
-      if (this.options.prev !== undefined) {
-        $(this.options.prev).on('click', function (event) {
-          event.stopPropagation();
-
-          _this2.prev();
-        });
-      }
-
-      if (this.options.next !== undefined) {
-        $(this.options.next).on('click', function (event) {
-          event.stopPropagation();
-
-          _this2.next();
-        });
-      }
-    }
-  }, {
-    key: "prev",
-    value: function prev() {
-      this.show(this.sources[(this.currentImage - 1 + this.sources.length) % this.sources.length]);
-    }
-  }, {
-    key: "next",
-    value: function next() {
-      this.show(this.sources[(this.currentImage + 1) % this.sources.length]);
-    }
-  }, {
-    key: "show",
-    value: function show(source) {
-      var _this3 = this;
-
-      if (!this.isShown) {
-        this.wrap.addClass('shown');
-        this.isShown = true;
-      }
-
-      if (this.options.transition) this.wrap.addClass('transition');
-      setTimeout(function () {
-        if (_this3.options.transition) {
-          _this3.image.on('load', function () {
-            _this3.wrap.removeClass('transition');
-          });
-        }
-
-        _this3.image.attr({
-          src: source.url
-        });
-
-        _this3.currentImage = source.id;
-
-        _this3.resize();
-      }, this.options.transition);
-    }
-  }, {
-    key: "hide",
-    value: function hide() {
-      if (this.isShown) {
-        this.wrap.removeClass('shown');
-        this.isShown = false;
-      }
-    }
-  }, {
-    key: "resize",
-    value: function resize() {
-      if (this.isShown) {
-        var ratio = this.sources[this.currentImage].ratio;
-
-        if (ratio > widok.w / widok.h) {
-          this.image.css({
-            width: '100%',
-            height: widok.w / widok.h / ratio * 100 + '%'
-          });
-        } else {
-          this.image.css({
-            width: ratio / widok.w * widok.h * 100 + '%',
-            height: '100%'
-          });
-        }
-      }
-    }
-  }]);
-
-  return Lightbox;
-}();
-
-var Source = function Source(element, id, lightbox) {
-  var _this4 = this;
-
-  _classCallCheck(this, Source);
-
-  this.element = $(element);
-  this.id = id;
-  this.lightbox = lightbox;
-  this.url = this.element.data('full-src');
-  this.ratio = this.element.data('ratio');
-  this.element.on('click', function (event) {
-    _this4.lightbox.show(_this4);
-  });
-};
-
-var lightboxes = [];
-window.addEventListener('afterLayoutChange', function () {
-  lightboxes.forEach(function (lightbox) {
-    return lightbox.resize();
-  });
-});
-window.addEventListener('keyup', function (event) {
-  if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
-    lightboxes.forEach(function (lightbox) {
-      if (lightbox.isShown) {
-        if (event.code === 'ArrowLeft') {
-          lightbox.prev();
-        }
-
-        if (event.code === 'ArrowRight') {
-          lightbox.next();
-        }
-      }
-    });
-  }
-});
-
-function createLightbox(options) {
-  var lightbox = new Lightbox(options);
-  lightboxes.push(lightbox);
-  return lightbox;
-}
-
-module.exports = createLightbox;
-
-/***/ })
-
-/******/ });
+/******/ })()
+;
 //# sourceMappingURL=main.js.map
