@@ -26,15 +26,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 var Lightbox = /*#__PURE__*/function () {
   function Lightbox(options) {
-    var _this = this;
-
     _classCallCheck(this, Lightbox);
 
     this.prepareOption(options);
-    this.sources = [];
-    cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(this.options.source).each(function (id, element) {
-      return _this.sources.push(new Source(element, id, _this));
-    });
+    this.findSources();
     this.prepareLightbox();
     this.isShown = false;
   }
@@ -51,6 +46,26 @@ var Lightbox = /*#__PURE__*/function () {
         transition: 0
       };
       Object.assign(this.options, options);
+    }
+  }, {
+    key: "findSources",
+    value: function findSources() {
+      var _this = this;
+
+      this.sources = [];
+      cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(this.options.source).each(function (id, element) {
+        return _this.sources.push(new Source(element, id, _this));
+      });
+
+      if (this.sources.length <= 1) {
+        if (this.options.prev !== undefined) {
+          cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(this.options.prev).addClass('disabled');
+        }
+
+        if (this.options.next !== undefined) {
+          cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(this.options.next).addClass('disabled');
+        }
+      }
     }
   }, {
     key: "prepareLightbox",
@@ -89,11 +104,6 @@ var Lightbox = /*#__PURE__*/function () {
 
           _this2.next();
         });
-      }
-
-      if (this.sources.length <= 1) {
-        cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(this.options.prev).addClass('disabled');
-        cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(this.options.next).addClass('disabled');
       }
     }
   }, {

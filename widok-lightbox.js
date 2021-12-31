@@ -4,10 +4,7 @@ import widok from 'widok';
 class Lightbox {
   constructor(options) {
     this.prepareOption(options);
-    this.sources = [];
-    $(this.options.source).each((id, element) =>
-      this.sources.push(new Source(element, id, this))
-    );
+    this.findSources();
     this.prepareLightbox();
 
     this.isShown = false;
@@ -23,6 +20,22 @@ class Lightbox {
       transition: 0,
     };
     Object.assign(this.options, options);
+  }
+
+  findSources() {
+    this.sources = [];
+    $(this.options.source).each((id, element) =>
+      this.sources.push(new Source(element, id, this))
+    );
+
+    if (this.sources.length <= 1) {
+      if (this.options.prev !== undefined) {
+        $(this.options.prev).addClass('disabled');
+      }
+      if (this.options.next !== undefined) {
+        $(this.options.next).addClass('disabled');
+      }
+    }
   }
 
   prepareLightbox() {
@@ -54,11 +67,6 @@ class Lightbox {
         event.stopPropagation();
         this.next();
       });
-    }
-
-    if (this.sources.length <= 1) {
-      $(this.options.prev).addClass('disabled');
-      $(this.options.next).addClass('disabled');
     }
   }
 
