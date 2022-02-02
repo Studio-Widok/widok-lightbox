@@ -81,7 +81,20 @@ var Lightbox = /*#__PURE__*/function () {
       });
       this.sizer = cash_dom__WEBPACK_IMPORTED_MODULE_0___default()('<div class="lightbox-sizer"></div>').appendTo(this.wrap);
       this.image = cash_dom__WEBPACK_IMPORTED_MODULE_0___default()('<img class="lightbox-image">').appendTo(this.sizer).on('click', function (event) {
-        event.stopPropagation();
+        return event.stopPropagation();
+      }); // find ratio of the image if it was not set
+
+      this.image.on('load', function () {
+        if (_this2.sources[_this2.currentImage].ratio !== undefined) return;
+
+        _this2.image.css({
+          width: 'auto',
+          height: 'auto'
+        });
+
+        _this2.sources[_this2.currentImage].ratio = _this2.image.width() / _this2.image.height();
+
+        _this2.resize();
       });
 
       if (this.options.close !== undefined) {
@@ -185,7 +198,7 @@ var Source = /*#__PURE__*/_createClass(function Source(element, id, lightbox) {
   this.lightbox = lightbox;
   this.url = this.element.data('full-src');
   this.ratio = this.element.data('ratio');
-  this.element.on('click', function (event) {
+  this.element.on('click', function () {
     _this4.lightbox.show(_this4);
   });
 });

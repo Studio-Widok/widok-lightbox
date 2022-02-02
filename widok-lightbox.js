@@ -47,9 +47,19 @@ class Lightbox {
     this.sizer = $('<div class="lightbox-sizer"></div>').appendTo(this.wrap);
     this.image = $('<img class="lightbox-image">')
       .appendTo(this.sizer)
-      .on('click', event => {
-        event.stopPropagation();
+      .on('click', event => event.stopPropagation());
+
+    // find ratio of the image if it was not set
+    this.image.on('load', () => {
+      if (this.sources[this.currentImage].ratio !== undefined) return;
+      this.image.css({
+        width: 'auto',
+        height: 'auto',
       });
+      this.sources[this.currentImage].ratio = this.image.width() / this.image.height();
+      this.resize();
+
+    });
 
     if (this.options.close !== undefined) {
       this.close = $(this.options.close).on('click', () => this.hide());
@@ -137,7 +147,7 @@ class Source {
     this.url = this.element.data('full-src');
     this.ratio = this.element.data('ratio');
 
-    this.element.on('click', event => {
+    this.element.on('click', () => {
       this.lightbox.show(this);
     });
   }
