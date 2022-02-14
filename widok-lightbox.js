@@ -1,6 +1,20 @@
 import $ from 'cash-dom';
 import widok from 'widok';
 
+/**
+ * @typedef {Object} options
+ * @property {string} wrap selector of the lightbox wrapper
+ * @property {string} source selector of the image sources,
+ *  default: '.lightbox-source'
+ * @property {string} close selector of the lightbox close button
+ * @property {string} prev
+ * @property {string} next
+ * @property {number} transition transition time before image should change
+ *  in ms, default: 0
+ * @property {bool} addTabIndex adds keyboard support for the lightbox sources,
+ *  default: true
+ */
+
 class Lightbox {
   constructor(options) {
     this.prepareOption(options);
@@ -18,6 +32,7 @@ class Lightbox {
       prev: undefined,
       next: undefined,
       transition: 0,
+      addTabIndex: true,
     };
     Object.assign(this.options, options);
   }
@@ -66,16 +81,28 @@ class Lightbox {
     }
 
     if (this.options.prev !== undefined) {
-      $(this.options.prev).on('click', event => {
-        event.stopPropagation();
-        this.prev();
+      this.prevElement = $(this.options.prev).on({
+        click: event => {
+          event.stopPropagation();
+          this.prev();
+        },
+        keydown: event => {
+          if (event.which !== 13) return;
+          this.prev();
+        },
       });
     }
 
     if (this.options.next !== undefined) {
-      $(this.options.next).on('click', event => {
-        event.stopPropagation();
-        this.next();
+      this.nextElement = $(this.options.next).on({
+        click: event => {
+          event.stopPropagation();
+          this.next();
+        },
+        keydown: event => {
+          if (event.which !== 13) return;
+          this.next();
+        },
       });
     }
   }
@@ -97,6 +124,7 @@ class Lightbox {
       this.wrap.addClass('shown');
       this.isShown = true;
     }
+
     if (this.options.transition) this.wrap.addClass('transition');
 
     setTimeout(() => {
@@ -111,13 +139,40 @@ class Lightbox {
       this.currentImage = source.id;
       this.resize();
     }, this.options.transition);
+
+    if (this.options.addTabIndex && this.sources.length > 1) {
+      if (this.prevElement !== undefined) this.prevElement.attr({ tabindex: 0 });
+      if (this.nextElement !== undefined) this.nextElement.attr({ tabindex: 0 });
+    }
+
+    $(window).on('keydown.lightbox', event => {
+      console.log(event.which);
+      switch (event.which) {
+        case 39:
+          this.next();
+          break;
+        case 37:
+          this.prev();
+          break;
+        case 27:
+          this.hide();
+          break;
+      }
+    });
   }
 
   hide() {
-    if (this.isShown) {
-      this.wrap.removeClass('shown');
-      this.isShown = false;
+    if (!this.isShown) return;
+
+    this.wrap.removeClass('shown');
+    this.isShown = false;
+
+    if (this.options.addTabIndex && this.sources.length > 1) {
+      if (this.prevElement !== undefined) this.prevElement.attr({ tabindex: -1 });
+      if (this.nextElement !== undefined) this.nextElement.attr({ tabindex: -1 });
     }
+
+    $(window).off('.lightbox');
   }
 
   resize() {
@@ -150,6 +205,18 @@ class Source {
     this.element.on('click', () => {
       this.lightbox.show(this);
     });
+
+    if (this.lightbox.options.addTabIndex) {
+      this.element.attr({ tabindex: 0 }).on('keydown', event => {
+        if (event.which !== 13) return;
+        this.lightbox.show(this);
+        console.log(this.lightbox.sources.length, this.lightbox.options.next);
+        if (this.lightbox.sources.length > 1 && this.lightbox.options.next !== undefined) {
+          console.log(this.lightbox.nextElement);
+          this.lightbox.nextElement.trigger('focus');
+        }
+      });
+    }
   }
 }
 
@@ -174,6 +241,12 @@ window.addEventListener('keyup', event => {
   }
 });
 
+/**
+ * Initializes lightboxes
+ * @param {options}
+ * 
+ * @returns {Object} lightbox object
+ */
 function createLightbox(options) {
   const lightbox = new Lightbox(options);
   lightboxes.push(lightbox);

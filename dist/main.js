@@ -23,6 +23,19 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
+/**
+ * @typedef {Object} options
+ * @property {string} wrap selector of the lightbox wrapper
+ * @property {string} source selector of the image sources,
+ *  default: '.lightbox-source'
+ * @property {string} close selector of the lightbox close button
+ * @property {string} prev
+ * @property {string} next
+ * @property {number} transition transition time before image should change
+ *  in ms, default: 0
+ * @property {bool} addTabIndex adds keyboard support for the lightbox sources,
+ *  default: true
+ */
 
 var Lightbox = /*#__PURE__*/function () {
   function Lightbox(options) {
@@ -43,7 +56,8 @@ var Lightbox = /*#__PURE__*/function () {
         close: undefined,
         prev: undefined,
         next: undefined,
-        transition: 0
+        transition: 0,
+        addTabIndex: true
       };
       Object.assign(this.options, options);
     }
@@ -104,18 +118,32 @@ var Lightbox = /*#__PURE__*/function () {
       }
 
       if (this.options.prev !== undefined) {
-        cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(this.options.prev).on('click', function (event) {
-          event.stopPropagation();
+        this.prevElement = cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(this.options.prev).on({
+          click: function click(event) {
+            event.stopPropagation();
 
-          _this2.prev();
+            _this2.prev();
+          },
+          keydown: function keydown(event) {
+            if (event.which !== 13) return;
+
+            _this2.prev();
+          }
         });
       }
 
       if (this.options.next !== undefined) {
-        cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(this.options.next).on('click', function (event) {
-          event.stopPropagation();
+        this.nextElement = cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(this.options.next).on({
+          click: function click(event) {
+            event.stopPropagation();
 
-          _this2.next();
+            _this2.next();
+          },
+          keydown: function keydown(event) {
+            if (event.which !== 13) return;
+
+            _this2.next();
+          }
         });
       }
     }
@@ -155,14 +183,54 @@ var Lightbox = /*#__PURE__*/function () {
 
         _this3.resize();
       }, this.options.transition);
+
+      if (this.options.addTabIndex && this.sources.length > 1) {
+        if (this.prevElement !== undefined) this.prevElement.attr({
+          tabindex: 0
+        });
+        if (this.nextElement !== undefined) this.nextElement.attr({
+          tabindex: 0
+        });
+      }
+
+      cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(window).on('keydown.lightbox', function (event) {
+        console.log(event.which);
+
+        switch (event.which) {
+          case 39:
+            _this3.next();
+
+            break;
+
+          case 37:
+            _this3.prev();
+
+            break;
+
+          case 27:
+            _this3.hide();
+
+            break;
+        }
+      });
     }
   }, {
     key: "hide",
     value: function hide() {
-      if (this.isShown) {
-        this.wrap.removeClass('shown');
-        this.isShown = false;
+      if (!this.isShown) return;
+      this.wrap.removeClass('shown');
+      this.isShown = false;
+
+      if (this.options.addTabIndex && this.sources.length > 1) {
+        if (this.prevElement !== undefined) this.prevElement.attr({
+          tabindex: -1
+        });
+        if (this.nextElement !== undefined) this.nextElement.attr({
+          tabindex: -1
+        });
       }
+
+      cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(window).off('.lightbox');
     }
   }, {
     key: "resize",
@@ -201,6 +269,24 @@ var Source = /*#__PURE__*/_createClass(function Source(element, id, lightbox) {
   this.element.on('click', function () {
     _this4.lightbox.show(_this4);
   });
+
+  if (this.lightbox.options.addTabIndex) {
+    this.element.attr({
+      tabindex: 0
+    }).on('keydown', function (event) {
+      if (event.which !== 13) return;
+
+      _this4.lightbox.show(_this4);
+
+      console.log(_this4.lightbox.sources.length, _this4.lightbox.options.next);
+
+      if (_this4.lightbox.sources.length > 1 && _this4.lightbox.options.next !== undefined) {
+        console.log(_this4.lightbox.nextElement);
+
+        _this4.lightbox.nextElement.trigger('focus');
+      }
+    });
+  }
 });
 
 var lightboxes = [];
@@ -224,6 +310,12 @@ window.addEventListener('keyup', function (event) {
     });
   }
 });
+/**
+ * Initializes lightboxes
+ * @param {options}
+ * 
+ * @returns {Object} lightbox object
+ */
 
 function createLightbox(options) {
   var lightbox = new Lightbox(options);
