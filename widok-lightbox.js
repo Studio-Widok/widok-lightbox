@@ -124,7 +124,6 @@ class Lightbox {
   }
 
   prev() {
-    console.log('prev');
     this.show(
       this.sources[
       (this.currentImage - 1 + this.sources.length) % this.sources.length
@@ -133,30 +132,20 @@ class Lightbox {
   }
 
   next() {
-    console.log('next');
     this.show(this.sources[(this.currentImage + 1) % this.sources.length]);
   }
 
   show(source) {
-    console.log('show');
-
     if (!this.isShown) {
       this.isShown = true;
       this.wrap.addClass('shown');
 
       $(window).on('keydown.lightbox', event => {
-        // console.log(event.which);
-        // switch (event.which) {
-        //   case 39:
-        //     this.next();
-        //     break;
-        //   case 37:
-        //     this.prev();
-        //     break;
-        //   case 27:
-        //     this.hide();
-        //     break;
-        // }
+        switch (event.which) {
+          case 27:
+            this.hide();
+            break;
+        }
       });
     }
 
@@ -254,18 +243,21 @@ window.addEventListener('afterLayoutChange', () => {
 });
 
 window.addEventListener('keyup', event => {
-  if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
-    lightboxes.forEach(lightbox => {
-      if (lightbox.isShown) {
-        if (event.code === 'ArrowLeft') {
-          lightbox.prev();
-        }
-        if (event.code === 'ArrowRight') {
-          lightbox.next();
-        }
+  if (!['ArrowLeft', 'ArrowRight', 'Escape'].includes(event.code)) return;
+
+  lightboxes.forEach(lightbox => {
+    if (lightbox.isShown) {
+      if (event.code === 'ArrowLeft') {
+        lightbox.prev();
       }
-    });
-  }
+      if (event.code === 'ArrowRight') {
+        lightbox.next();
+      }
+      if (event.code === 'Escape') {
+        lightbox.hide();
+      }
+    }
+  });
 });
 
 /**

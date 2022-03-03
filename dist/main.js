@@ -167,13 +167,11 @@ var Lightbox = /*#__PURE__*/function () {
   }, {
     key: "prev",
     value: function prev() {
-      console.log('prev');
       this.show(this.sources[(this.currentImage - 1 + this.sources.length) % this.sources.length]);
     }
   }, {
     key: "next",
     value: function next() {
-      console.log('next');
       this.show(this.sources[(this.currentImage + 1) % this.sources.length]);
     }
   }, {
@@ -181,23 +179,16 @@ var Lightbox = /*#__PURE__*/function () {
     value: function show(source) {
       var _this3 = this;
 
-      console.log('show');
-
       if (!this.isShown) {
         this.isShown = true;
         this.wrap.addClass('shown');
-        cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(window).on('keydown.lightbox', function (event) {// console.log(event.which);
-          // switch (event.which) {
-          //   case 39:
-          //     this.next();
-          //     break;
-          //   case 37:
-          //     this.prev();
-          //     break;
-          //   case 27:
-          //     this.hide();
-          //     break;
-          // }
+        cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(window).on('keydown.lightbox', function (event) {
+          switch (event.which) {
+            case 27:
+              _this3.hide();
+
+              break;
+          }
         });
       }
 
@@ -309,19 +300,22 @@ window.addEventListener('afterLayoutChange', function () {
   });
 });
 window.addEventListener('keyup', function (event) {
-  if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
-    lightboxes.forEach(function (lightbox) {
-      if (lightbox.isShown) {
-        if (event.code === 'ArrowLeft') {
-          lightbox.prev();
-        }
-
-        if (event.code === 'ArrowRight') {
-          lightbox.next();
-        }
+  if (!['ArrowLeft', 'ArrowRight', 'Escape'].includes(event.code)) return;
+  lightboxes.forEach(function (lightbox) {
+    if (lightbox.isShown) {
+      if (event.code === 'ArrowLeft') {
+        lightbox.prev();
       }
-    });
-  }
+
+      if (event.code === 'ArrowRight') {
+        lightbox.next();
+      }
+
+      if (event.code === 'Escape') {
+        lightbox.hide();
+      }
+    }
+  });
 });
 /**
  * Initializes lightboxes
