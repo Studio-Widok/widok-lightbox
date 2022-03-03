@@ -205,7 +205,7 @@ var Lightbox = /*#__PURE__*/function () {
       }
 
       if (this.options.onChange !== undefined) {
-        this.options.onChange(this, this.sources[source.id], this.sources[this.currentImage], this);
+        this.options.onChange.call(this, this.sources[source.id], this.sources[this.currentImage], this);
       }
 
       if (this.options.transition) this.wrap.addClass('transition');

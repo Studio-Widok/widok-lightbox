@@ -157,7 +157,7 @@ class Lightbox {
     }
 
     if (this.options.onChange !== undefined) {
-      this.options.onChange(
+      this.options.onChange.call(
         this,
         this.sources[source.id],
         this.sources[this.currentImage],
