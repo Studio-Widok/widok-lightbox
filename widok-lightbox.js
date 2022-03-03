@@ -159,7 +159,7 @@ class Lightbox {
     if (this.options.onChange !== undefined) {
       this.options.onChange(
         this,
-        this.sources[this.source.id],
+        this.sources[source.id],
         this.sources[this.currentImage],
         this
       );
