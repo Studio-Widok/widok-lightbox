@@ -79,6 +79,14 @@ var Lightbox = /*#__PURE__*/function () {
         if (this.options.next !== undefined) {
           cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(this.options.next).addClass('disabled');
         }
+      } else {
+        if (this.options.prev !== undefined) {
+          cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(this.options.prev).removeClass('disabled');
+        }
+
+        if (this.options.next !== undefined) {
+          cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(this.options.next).removeClass('disabled');
+        }
       }
     }
   }, {

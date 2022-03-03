@@ -50,6 +50,13 @@ class Lightbox {
       if (this.options.next !== undefined) {
         $(this.options.next).addClass('disabled');
       }
+    } else {
+      if (this.options.prev !== undefined) {
+        $(this.options.prev).removeClass('disabled');
+      }
+      if (this.options.next !== undefined) {
+        $(this.options.next).removeClass('disabled');
+      }
     }
   }
 
