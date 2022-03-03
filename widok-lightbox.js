@@ -2,6 +2,13 @@ import $ from 'cash-dom';
 import widok from 'widok';
 
 /**
+ * @callback onChange
+ * @param {Source} activatedSource
+ * @param {Source} previousSource
+ * @param {Lightbox} lightbox
+ */
+
+/**
  * @typedef {Object} options
  * @property {string} wrap selector of the lightbox wrapper
  * @property {string} source selector of the image sources,
@@ -13,6 +20,7 @@ import widok from 'widok';
  *  in ms, default: 0
  * @property {bool} addTabIndex adds keyboard support for the lightbox sources,
  *  default: true
+ * @property {onChange} onChange function triggered when the shown image changes
  */
 
 class Lightbox {
@@ -33,6 +41,7 @@ class Lightbox {
       next: undefined,
       transition: 0,
       addTabIndex: true,
+      onChange: undefined
     };
     Object.assign(this.options, options);
   }
@@ -128,8 +137,32 @@ class Lightbox {
 
   show(source) {
     if (!this.isShown) {
-      this.wrap.addClass('shown');
       this.isShown = true;
+      this.wrap.addClass('shown');
+
+      $(window).on('keydown.lightbox', event => {
+        console.log(event.which);
+        switch (event.which) {
+          case 39:
+            this.next();
+            break;
+          case 37:
+            this.prev();
+            break;
+          case 27:
+            this.hide();
+            break;
+        }
+      });
+    }
+
+    if (this.options.onChange !== undefined) {
+      this.options.onChange(
+        this,
+        this.sources[this.source.id],
+        this.sources[this.currentImage],
+        this
+      );
     }
 
     if (this.options.transition) this.wrap.addClass('transition');
@@ -151,21 +184,6 @@ class Lightbox {
       if (this.prevElement !== undefined) this.prevElement.attr({ tabindex: 0 });
       if (this.nextElement !== undefined) this.nextElement.attr({ tabindex: 0 });
     }
-
-    $(window).on('keydown.lightbox', event => {
-      console.log(event.which);
-      switch (event.which) {
-        case 39:
-          this.next();
-          break;
-        case 37:
-          this.prev();
-          break;
-        case 27:
-          this.hide();
-          break;
-      }
-    });
   }
 
   hide() {

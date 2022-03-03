@@ -24,6 +24,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 /**
+ * @callback onChange
+ * @param {Source} activatedSource
+ * @param {Source} previousSource
+ * @param {Lightbox} lightbox
+ */
+
+/**
  * @typedef {Object} options
  * @property {string} wrap selector of the lightbox wrapper
  * @property {string} source selector of the image sources,
@@ -35,6 +42,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
  *  in ms, default: 0
  * @property {bool} addTabIndex adds keyboard support for the lightbox sources,
  *  default: true
+ * @property {onChange} onChange function triggered when the shown image changes
  */
 
 var Lightbox = /*#__PURE__*/function () {
@@ -57,7 +65,8 @@ var Lightbox = /*#__PURE__*/function () {
         prev: undefined,
         next: undefined,
         transition: 0,
-        addTabIndex: true
+        addTabIndex: true,
+        onChange: undefined
       };
       Object.assign(this.options, options);
     }
@@ -171,8 +180,32 @@ var Lightbox = /*#__PURE__*/function () {
       var _this3 = this;
 
       if (!this.isShown) {
-        this.wrap.addClass('shown');
         this.isShown = true;
+        this.wrap.addClass('shown');
+        cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(window).on('keydown.lightbox', function (event) {
+          console.log(event.which);
+
+          switch (event.which) {
+            case 39:
+              _this3.next();
+
+              break;
+
+            case 37:
+              _this3.prev();
+
+              break;
+
+            case 27:
+              _this3.hide();
+
+              break;
+          }
+        });
+      }
+
+      if (this.options.onChange !== undefined) {
+        this.options.onChange(this, this.sources[this.source.id], this.sources[this.currentImage], this);
       }
 
       if (this.options.transition) this.wrap.addClass('transition');
@@ -200,27 +233,6 @@ var Lightbox = /*#__PURE__*/function () {
           tabindex: 0
         });
       }
-
-      cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(window).on('keydown.lightbox', function (event) {
-        console.log(event.which);
-
-        switch (event.which) {
-          case 39:
-            _this3.next();
-
-            break;
-
-          case 37:
-            _this3.prev();
-
-            break;
-
-          case 27:
-            _this3.hide();
-
-            break;
-        }
-      });
     }
   }, {
     key: "hide",
