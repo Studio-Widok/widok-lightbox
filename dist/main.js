@@ -167,11 +167,13 @@ var Lightbox = /*#__PURE__*/function () {
   }, {
     key: "prev",
     value: function prev() {
+      console.log('prev');
       this.show(this.sources[(this.currentImage - 1 + this.sources.length) % this.sources.length]);
     }
   }, {
     key: "next",
     value: function next() {
+      console.log('next');
       this.show(this.sources[(this.currentImage + 1) % this.sources.length]);
     }
   }, {
@@ -179,28 +181,23 @@ var Lightbox = /*#__PURE__*/function () {
     value: function show(source) {
       var _this3 = this;
 
+      console.log('show');
+
       if (!this.isShown) {
         this.isShown = true;
         this.wrap.addClass('shown');
-        cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(window).on('keydown.lightbox', function (event) {
-          console.log(event.which);
-
-          switch (event.which) {
-            case 39:
-              _this3.next();
-
-              break;
-
-            case 37:
-              _this3.prev();
-
-              break;
-
-            case 27:
-              _this3.hide();
-
-              break;
-          }
+        cash_dom__WEBPACK_IMPORTED_MODULE_0___default()(window).on('keydown.lightbox', function (event) {// console.log(event.which);
+          // switch (event.which) {
+          //   case 39:
+          //     this.next();
+          //     break;
+          //   case 37:
+          //     this.prev();
+          //     break;
+          //   case 27:
+          //     this.hide();
+          //     break;
+          // }
         });
       }
 
@@ -298,11 +295,7 @@ var Source = /*#__PURE__*/_createClass(function Source(element, id, lightbox) {
 
       _this4.lightbox.show(_this4);
 
-      console.log(_this4.lightbox.sources.length, _this4.lightbox.options.next);
-
       if (_this4.lightbox.sources.length > 1 && _this4.lightbox.options.next !== undefined) {
-        console.log(_this4.lightbox.nextElement);
-
         _this4.lightbox.nextElement.trigger('focus');
       }
     });
@@ -1910,7 +1903,10 @@ __webpack_require__.r(__webpack_exports__);
   prev: '#lightbox .lightbox-prev',
   next: '#lightbox .lightbox-next',
   source: '.source',
-  transition: 300
+  transition: 300,
+  onChange: function onChange() {
+    console.log('change');
+  }
 });
 })();
 

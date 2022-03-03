@@ -8,4 +8,7 @@ createLightbox({
   next: '#lightbox .lightbox-next',
   source: '.source',
   transition: 300,
+  onChange: () => {
+    console.log('change');
+  },
 });

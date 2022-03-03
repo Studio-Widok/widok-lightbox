@@ -124,6 +124,7 @@ class Lightbox {
   }
 
   prev() {
+    console.log('prev');
     this.show(
       this.sources[
       (this.currentImage - 1 + this.sources.length) % this.sources.length
@@ -132,27 +133,30 @@ class Lightbox {
   }
 
   next() {
+    console.log('next');
     this.show(this.sources[(this.currentImage + 1) % this.sources.length]);
   }
 
   show(source) {
+    console.log('show');
+
     if (!this.isShown) {
       this.isShown = true;
       this.wrap.addClass('shown');
 
       $(window).on('keydown.lightbox', event => {
-        console.log(event.which);
-        switch (event.which) {
-          case 39:
-            this.next();
-            break;
-          case 37:
-            this.prev();
-            break;
-          case 27:
-            this.hide();
-            break;
-        }
+        // console.log(event.which);
+        // switch (event.which) {
+        //   case 39:
+        //     this.next();
+        //     break;
+        //   case 37:
+        //     this.prev();
+        //     break;
+        //   case 27:
+        //     this.hide();
+        //     break;
+        // }
       });
     }
 
@@ -235,9 +239,7 @@ class Source {
       this.element.attr({ tabindex: 0 }).on('keydown', event => {
         if (event.which !== 13) return;
         this.lightbox.show(this);
-        console.log(this.lightbox.sources.length, this.lightbox.options.next);
         if (this.lightbox.sources.length > 1 && this.lightbox.options.next !== undefined) {
-          console.log(this.lightbox.nextElement);
           this.lightbox.nextElement.trigger('focus');
         }
       });
