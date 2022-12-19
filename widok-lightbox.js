@@ -220,7 +220,7 @@ class Source {
     this.url = this.element.data('full-src');
     this.ratio = this.element.data('ratio');
 
-    this.element.on('click', this.onClick);
+    this.element.on('click', event => this.onClick(event));
 
     if (this.lightbox.options.addTabIndex) {
       this.element.attr({ tabindex: 0 }).on('keydown', event => {
