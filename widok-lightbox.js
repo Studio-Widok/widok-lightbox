@@ -76,7 +76,7 @@ class Lightbox {
     this.wrap.on('click', () => this.hide());
 
     this.sizer = $('<div class="lightbox-sizer"></div>').appendTo(this.wrap);
-    this.image = $('<img class="lightbox-image">')
+    this.image = $('<img class="lightbox-image" alt="">')
       .appendTo(this.sizer)
       .on('click', event => event.stopPropagation());
 
